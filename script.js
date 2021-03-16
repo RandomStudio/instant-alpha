@@ -79,7 +79,7 @@ window.getMousePosition = (e) => {
 window.onMouseDown = (e) => {
   if (e.button == 0) {
     allowDraw = true;
-    addMode = e.ctrlKey;
+    addMode = e.shiftKey;
     downPoint = getMousePosition(e);
     drawMask(downPoint.x, downPoint.y);
   } else {

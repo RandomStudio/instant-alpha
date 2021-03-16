@@ -1,28 +1,51 @@
 <html>
   <body>
     <script src="./script.js"></script>
-    <link rel="stylesheet" type="text/css" href="./index.css"> 
+    <link rel="stylesheet" type="text/css" href="./index.scss" />
 
-    <div style="overflow: auto">
-      <div class="button" onclick="uploadClick()">Upload image and click on it</div>
-      <div class="button" onclick="trace()">Create polygons by current selection</div>
-      <div class="button" onclick="paint('FF0000', 0.35)">Paint the selection</div>
-      <input id="file-upload" type="file" accept="image/*" onchange="imgChange(this)" />
-  </div>
-  <div style="overflow: auto">
-      <div style="float: left; margin-right: 10px;">Blur radius: </div>
-      <input id="blurRadius" type="text" onchange="onRadiusChange.apply(this, arguments)" style="float: left; width: 20px; margin-right: 10px;"/>
-      <div id="threshold"></div>
-  </div>
-  <div>(hold left mouse button and move to change the color threshold)</div>
-  <div>(hold the CTRL key to add selection)</div>
-  <div class='wrapper'>
-      <div class='content'>
-          <img id="test-picture" class="picture" />
-          <canvas class="canvas" id="resultCanvas" onmouseup="onMouseUp.apply(this, arguments)" onmousedown="onMouseDown.apply(this, arguments)" onmousemove="onMouseMove.apply(this, arguments)"></canvas>
+    <div class="ui">
+      <div>
+        <div class="button" onclick="uploadClick()">
+          Upload image and click on it
+        </div>
+        <div class="button" onclick="trace()">
+          Create polygons by current selection
+        </div>
+        <div class="button" onclick="paint('FF0000', 0.35)">
+          Paint the selection
+        </div>
+        <input
+          id="file-upload"
+          type="file"
+          accept="image/*"
+          onchange="imgChange(this)"
+        />
       </div>
-  </div>
-  
+      <div>
+        <div style="float: left; margin-right: 10px">Blur radius:</div>
+        <input
+          id="blurRadius"
+          type="text"
+          onchange="onRadiusChange.apply(this, arguments)"
+          style="float: left; width: 20px; margin-right: 10px"
+        />
+        <div id="threshold"></div>
+      </div>
+      <div>(hold left mouse button and move to change the color threshold)</div>
+      <div>(hold the Shift key to add selection)</div>
+    </div>
 
+    <div class="wrapper">
+      <div class="content">
+        <img id="test-picture" class="picture" />
+        <canvas
+          class="canvas"
+          id="resultCanvas"
+          onmouseup="onMouseUp.apply(this, arguments)"
+          onmousedown="onMouseDown.apply(this, arguments)"
+          onmousemove="onMouseMove.apply(this, arguments)"
+        ></canvas>
+      </div>
+    </div>
   </body>
 </html>
