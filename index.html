@@ -5,15 +5,17 @@
 
     <div class="ui">
       <div>
-        <button onclick="uploadClick()">Upload image and click on it</button>
+        <div>
+          <input
+            id="file-upload"
+            type="file"
+            accept="image/*"
+            onchange="imageUploaded(this)"
+          />
+        </div>
+        <hr />
         <button onclick="trace()">Create polygons by current selection</button>
         <button onclick="paint('000000', 0.0)">Delete selection</button>
-        <input
-          id="file-upload"
-          type="file"
-          accept="image/*"
-          onchange="imgChange(this)"
-        />
       </div>
       <div>
         <div>

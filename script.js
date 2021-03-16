@@ -28,14 +28,11 @@ window.onload = function () {
   }, 300);
 };
 
-window.uploadClick = () => {
-  document.getElementById("file-upload").click();
-};
 window.onRadiusChange = (e) => {
   blurRadius = e.target.value;
 };
 
-window.imgChange = (inp) => {
+window.imageUploaded = (inp) => {
   if (inp.files && inp.files[0]) {
     var reader = new FileReader();
     reader.onload = function (e) {
