@@ -70,6 +70,7 @@ const initCanvas = (img) => {
     imageInfo.width,
     imageInfo.height
   );
+  imageInfo.context.putImageData(imageInfo.data, 0, 0);
 };
 window.getMousePosition = (e) => {
   const p = e.target.getBoundingClientRect();
