@@ -5,15 +5,9 @@
 
     <div class="ui">
       <div>
-        <div class="button" onclick="uploadClick()">
-          Upload image and click on it
-        </div>
-        <div class="button" onclick="trace()">
-          Create polygons by current selection
-        </div>
-        <div class="button" onclick="paint('FF0000', 0.35)">
-          Paint the selection
-        </div>
+        <button onclick="uploadClick()">Upload image and click on it</button>
+        <button onclick="trace()">Create polygons by current selection</button>
+        <button onclick="paint('FF0000', 0.35)">Paint the selection</button>
         <input
           id="file-upload"
           type="file"
@@ -22,17 +16,24 @@
         />
       </div>
       <div>
-        <div style="float: left; margin-right: 10px">Blur radius:</div>
-        <input
-          id="blurRadius"
-          type="text"
-          onchange="onRadiusChange.apply(this, arguments)"
-          style="float: left; width: 20px; margin-right: 10px"
-        />
+        <div>
+          <label for="blurRadiu">Blur radius</label>
+          <input
+            id="blurRadius"
+            type="number"
+            onchange="onRadiusChange.apply(this, arguments)"
+            step="1"
+          />
+        </div>
         <div id="threshold"></div>
       </div>
-      <div>(hold left mouse button and move to change the color threshold)</div>
-      <div>(hold the Shift key to add selection)</div>
+      <div>
+        <ul>
+          <li>Click on image to select transparent areas</li>
+          <li>Drag to increase threshold</li>
+          <li>Hold Shift key to add selection</li>
+        </ul>
+      </div>
     </div>
 
     <div class="wrapper">

@@ -3,12 +3,19 @@
   top: 0;
   left: 0;
   z-index: 2;
+  padding: 1em;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
 }
 
 .wrapper {
   position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow: scroll;
   left: 0;
   top: 0;
+  background-color: green;
 }
 
 .content {
@@ -22,25 +29,11 @@
 }
 .picture {
   position: absolute;
-}
-.button {
-  padding: 4px;
-  margin: 4px;
-  border: 1px solid black;
-  float: left;
-}
-.button:hover {
-  background-color: blue;
-  color: white;
-  cursor: pointer;
-}
-#threshold {
-  width: 95px;
-  float: left;
+  visibility: hidden;
 }
 #file-upload {
   display: none;
 }
 .add-mode {
-  cursor: copy !important;
+  cursor: copy;
 }

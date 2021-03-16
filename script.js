@@ -42,13 +42,14 @@ window.imgChange = (inp) => {
       var img = document.getElementById("test-picture");
       img.setAttribute("src", e.target.result);
       img.onload = function () {
-        window.initCanvas(img);
+        initCanvas(img);
       };
     };
     reader.readAsDataURL(inp.files[0]);
   }
 };
-window.initCanvas = (img) => {
+
+const initCanvas = (img) => {
   var cvs = document.getElementById("resultCanvas");
   cvs.width = img.width;
   cvs.height = img.height;
@@ -171,7 +172,8 @@ window.drawBorder = (noBorder) => {
     w = imageInfo.width,
     h = imageInfo.height,
     ctx = imageInfo.context,
-    imgData = ctx.createImageData(w, h),
+    // imgData = ctx.createImageData(w, h),
+    imgData = imageInfo.data,
     res = imgData.data;
 
   if (!noBorder) cacheInd = MagicWand.getBorderIndices(mask);
@@ -244,7 +246,8 @@ window.paint = (color, alpha) => {
     w = imageInfo.width,
     h = imageInfo.height,
     ctx = imageInfo.context,
-    imgData = ctx.createImageData(w, h),
+    // imgData = ctx.createImageData(w, h),
+    imgData = imageInfo.data,
     res = imgData.data;
 
   for (y = bounds.minY; y <= bounds.maxY; y++) {
@@ -262,14 +265,15 @@ window.paint = (color, alpha) => {
 
   ctx.putImageData(imgData, 0, 0);
 };
-window.hexToRgb = (hex, alpha) => {
+
+function hexToRgb(hex, alpha) {
   var int = parseInt(hex, 16);
   var r = (int >> 16) & 255;
   var g = (int >> 8) & 255;
   var b = int & 255;
 
   return [r, g, b, Math.round(alpha * 255)];
-};
+}
 
 window.concatMasks = (mask, old) => {
   let data1 = old.data,
