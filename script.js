@@ -334,4 +334,11 @@ window.concatMasks = (mask, old) => {
   };
 };
 
+document.addEventListener("keydown", (e) => {
+  console.log("key!", e);
+  if (e.key === "Delete") {
+    window.paint("000000", 0.0);
+  }
+});
+
 console.log("boo!");
