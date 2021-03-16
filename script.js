@@ -1,3 +1,5 @@
+import MagicWand from "magic-wand-tool";
+
 let colorThreshold = 15;
 let blurRadius = 5;
 let simplifyTolerant = 0;
@@ -69,9 +71,9 @@ window.initCanvas = (img) => {
   );
 };
 window.getMousePosition = (e) => {
-  var p = $(e.target).offset(),
-    x = Math.round((e.clientX || e.pageX) - p.left),
-    y = Math.round((e.clientY || e.pageY) - p.top);
+  const p = e.target.getBoundingClientRect();
+  const x = Math.round((e.clientX || e.pageX) - p.left);
+  const y = Math.round((e.clientY || e.pageY) - p.top);
   return { x: x, y: y };
 };
 window.onMouseDown = (e) => {
