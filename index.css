@@ -1,0 +1,39 @@
+.wrapper {
+    top: 80px;
+    width: 400px;
+    height: 350px;
+    overflow: auto;
+}
+.content {
+    position: relative;
+}
+.canvas {
+    position: absolute;
+}
+.canvas:hover {
+    cursor: default;
+}
+.picture {
+    position: absolute;
+}
+.button {
+    padding: 4px;
+    margin: 4px;
+    border: 1px solid black;
+    float: left;
+}
+.button:hover {
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+}
+#threshold {
+    width: 95px;
+    float: left;
+}
+#file-upload {
+    display: none;
+}
+.add-mode {
+    cursor: copy !important;
+}
