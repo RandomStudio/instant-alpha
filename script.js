@@ -250,7 +250,7 @@ window.paint = (color, alpha) => {
   for (y = bounds.minY; y <= bounds.maxY; y++) {
     for (x = bounds.minX; x <= bounds.maxX; x++) {
       if (data[y * maskW + x] == 0) continue;
-      k = (y * w + x) * 4;
+      const k = (y * w + x) * 4;
       res[k] = rgba[0];
       res[k + 1] = rgba[1];
       res[k + 2] = rgba[2];
