@@ -340,10 +340,9 @@ document.addEventListener("keydown", (e) => {
 
 window.initDownload = (el) => {
   const canvas = document.querySelector("#resultCanvas");
-  console.log({ canvas });
+  console.log({ el, canvas });
   if (canvas) {
-    const dataUrl = canvas.toDataURL("image/png ");
-    // console.log("download", dataUrl);
+    const dataUrl = canvas.toDataURL("image/png");
     el.href = dataUrl;
   }
 };
