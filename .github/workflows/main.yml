@@ -12,14 +12,14 @@ jobs:
       SERVER_PORT: 22
       SSH_USERNAME: staging-bot
       SSH_KEY: ${{ secrets.SSH_KEY }}
-      SOURCE_DIR: 'build'
+      SOURCE_DIR: 'dist'
       TARGET_DIR: 'instant-alpha'
     steps:
       - uses: actions/checkout@v1 
       - name: Install dependencies
-        run: yarn
+        run: npm i
       - name: Build
-        run: yarn build
+        run: npm run build
       - name: Create folders
         uses: appleboy/ssh-action@master
         with:
