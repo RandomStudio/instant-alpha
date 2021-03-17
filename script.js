@@ -36,7 +36,7 @@ window.imageUploaded = (inp) => {
   if (inp.files && inp.files[0]) {
     var reader = new FileReader();
     reader.onload = function (e) {
-      var img = document.getElementById("test-picture");
+      var img = document.getElementById("original-image");
       img.setAttribute("src", e.target.result);
       img.onload = function () {
         initCanvas(img);
@@ -338,4 +338,12 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-console.log("boo!");
+window.initDownload = (el) => {
+  const canvas = document.querySelector("#resultCanvas");
+  console.log({ canvas });
+  if (canvas) {
+    const dataUrl = canvas.toDataURL("image/png ");
+    // console.log("download", dataUrl);
+    el.href = dataUrl;
+  }
+};

@@ -14,8 +14,10 @@
           />
         </div>
         <hr />
-        <button onclick="trace()">Create polygons by current selection</button>
         <button onclick="paint('000000', 0.0)">Delete selection</button>
+        <a href="" onClick="initDownload(this)" download="result.png"
+          >Download it</a
+        >
       </div>
       <div>
         <div>
@@ -40,7 +42,7 @@
 
     <div class="wrapper">
       <div class="content">
-        <img id="test-picture" class="picture" />
+        <img id="original-image" class="picture" />
         <canvas
           class="canvas"
           id="resultCanvas"
