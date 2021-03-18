@@ -184,43 +184,51 @@ const hatchTick = () => {
 const drawMask = (noBorder) => {
   if (!mask) return;
 
-  var x,
-    y,
-    i,
-    j,
-    k,
-    w = interactionImage.width,
-    h = interactionImage.height,
-    ctx = interactionImage.context,
-    imgData = ctx.createImageData(w, h),
-    // imgData = interactionImage.data,
-    res = imgData.data;
+  // var x,
+  //   y,
+  //   i,
+  //   j,
+  //   k,
+  //   w = interactionImage.width,
+  //   h = interactionImage.height,
+  //   ctx = interactionImage.context,
+  //   imgData = ctx.createImageData(w, h),
+  //   // imgData = interactionImage.data,
+  //   res = imgData.data;
 
-  if (!noBorder) cacheInd = MagicWand.getBorderIndices(mask);
+  // if (!noBorder) cacheInd = MagicWand.getBorderIndices(mask);
 
-  ctx.clearRect(0, 0, w, h);
+  // ctx.clearRect(0, 0, w, h);
 
-  var len = cacheInd.length;
-  for (j = 0; j < len; j++) {
-    i = cacheInd[j];
-    x = i % w; // calc x by index
-    y = (i - x) / w; // calc y by index
-    k = (y * w + x) * 4;
-    if ((x + y + hatchOffset) % (hatchLength * 2) < hatchLength) {
-      // detect hatch color
-      res[k + 3] = 255; // black, change only alpha
-    } else {
-      res[k] = 255; // white
-      res[k + 1] = 255;
-      res[k + 2] = 255;
-      res[k + 3] = 255;
-    }
-  }
+  // var len = cacheInd.length;
+  // for (j = 0; j < len; j++) {
+  //   i = cacheInd[j];
+  //   x = i % w; // calc x by index
+  //   y = (i - x) / w; // calc y by index
+  //   k = (y * w + x) * 4;
+  //   if ((x + y + hatchOffset) % (hatchLength * 2) < hatchLength) {
+  //     // detect hatch color
+  //     res[k + 3] = 255; // black, change only alpha
+  //   } else {
+  //     res[k] = 255; // white
+  //     res[k + 1] = 255;
+  //     res[k + 2] = 255;
+  //     res[k + 3] = 255;
+  //   }
+  // }
 
-  ctx.putImageData(imgData, 0, 0);
+  // ctx.putImageData(imgData, 0, 0);
+
+  interactionImage.data = interactionImage.context.getImageData(
+    0,
+    0,
+    interactionImage.width,
+    interactionImage.height
+  );
+  modifyPixels("ff0000", 0.5, interactionImage);
 };
 
-const modifyPixels = (color, alpha) => {
+const modifyPixels = (color, alpha, targetImage) => {
   if (!mask) return;
 
   var rgba = hexToRgb(color, alpha);
@@ -230,11 +238,11 @@ const modifyPixels = (color, alpha) => {
     data = mask.data,
     bounds = mask.bounds,
     maskW = mask.width,
-    w = resultImage.width,
-    h = resultImage.height,
-    ctx = resultImage.context,
+    w = targetImage.width,
+    h = targetImage.height,
+    ctx = targetImage.context,
     // imgData = ctx.createImageData(w, h),
-    imgData = resultImage.data,
+    imgData = targetImage.data,
     res = imgData.data;
 
   for (y = bounds.minY; y <= bounds.maxY; y++) {
@@ -249,9 +257,6 @@ const modifyPixels = (color, alpha) => {
   }
 
   ctx.putImageData(imgData, 0, 0);
-
-  // Clear the mask
-  mask = null;
 };
 
 function hexToRgb(hex, alpha) {
@@ -324,9 +329,11 @@ const concatMasks = (mask, old) => {
 document.addEventListener("keydown", (e) => {
   console.log("key!", e);
   if (e.key === "Delete") {
-    modifyPixels("000000", 0.0);
+    modifyPixels("000000", 0.0, resultImage);
 
-    // Clear the interaction canvas
+    // Clear the mask
+    mask = null;
+
     clearInteractionCanvas();
   }
 });
