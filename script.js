@@ -181,7 +181,7 @@ window.hatchTick = () => {
   drawBorder(true);
 };
 
-window.drawBorder = (noBorder) => {
+const drawBorder = (noBorder) => {
   if (!mask) return;
 
   var x,
@@ -248,9 +248,12 @@ const modifyPixels = (color, alpha) => {
     }
   }
 
-  mask = null;
-
   ctx.putImageData(imgData, 0, 0);
+
+  // Clear the mask
+  mask = null;
+  const interactionCtx = interactionCanvas.getContext("2d");
+  interactionCtx.clearRect(0, 0, w, h);
 };
 
 function hexToRgb(hex, alpha) {
@@ -262,7 +265,7 @@ function hexToRgb(hex, alpha) {
   return [r, g, b, Math.round(alpha * 255)];
 }
 
-window.concatMasks = (mask, old) => {
+const concatMasks = (mask, old) => {
   let data1 = old.data,
     data2 = mask.data,
     w1 = old.width,
