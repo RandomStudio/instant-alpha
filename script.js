@@ -333,9 +333,11 @@ const concatMasks = (mask, old) => {
 
 document.addEventListener("keydown", (e) => {
   console.log("key!", e);
-  if (e.key === "Delete") {
+  if (e.key === "Delete" || e.key === "Backspace") {
     modifyPixels("000000", 0.0, resultImage);
-
+    resetMask();
+  }
+  if (e.key === "Escape") {
     resetMask();
   }
 });
