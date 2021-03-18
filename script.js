@@ -1,5 +1,11 @@
 import MagicWand from "magic-wand-tool";
 
+// ----------------------------------------------------------------
+// Some global variables that get modified in other functions
+// TODO: state ought to be handled more carefully, and
+// functions should be pure
+// ----------------------------s------------------------------------
+
 let colorThreshold = 15;
 let blurRadius = 5;
 
@@ -12,6 +18,10 @@ let downPoint = null;
 let allowDraw = false;
 
 let currentThreshold = colorThreshold;
+
+// ----------------------------------------------------------------
+// Functions
+// ----------------------------------------------------------------
 
 const onRadiusChange = (e) => {
   blurRadius = e.target.value;
@@ -177,7 +187,8 @@ const resetMask = () => {
 };
 
 // ----------------------------------------------------------------
-// Some "global" functions, accessible from index.html
+// Some "global" functions reshared to be accessible from
+// index.html
 // ----------------------------------------------------------------
 
 window.resetMask = resetMask;
