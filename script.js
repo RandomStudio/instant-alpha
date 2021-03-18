@@ -92,7 +92,7 @@ window.getMousePosition = (e) => {
 window.onMouseDown = (e) => {
   if (e.button == 0) {
     allowDraw = true;
-    addMode = e.shiftKey;
+    // addMode = e.shiftKey;
     downPoint = getMousePosition(e);
     calculateMask(downPoint.x, downPoint.y);
   } else {
@@ -233,6 +233,11 @@ const modifyPixels = (color, alpha, targetImage) => {
 
   var rgba = hexToRgb(color, alpha);
 
+  if (targetImage === undefined) {
+    // called from outside
+    targetImage = resultImage;
+  }
+
   var x,
     y,
     data = mask.data,
@@ -331,10 +336,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Delete") {
     modifyPixels("000000", 0.0, resultImage);
 
-    // Clear the mask
-    mask = null;
-
-    clearInteractionCanvas();
+    resetMask();
   }
 });
 
@@ -352,3 +354,12 @@ const clearInteractionCanvas = () => {
   const { width, height } = interactionImage;
   interactionCtx.clearRect(0, 0, width, height);
 };
+
+const resetMask = () => {
+  console.log("reset mask!");
+  clearInteractionCanvas();
+  mask = null;
+};
+
+window.resetMask = resetMask;
+window.modifyPixels = modifyPixels;
