@@ -94,7 +94,7 @@ window.onMouseDown = (e) => {
     allowDraw = true;
     addMode = e.shiftKey;
     downPoint = getMousePosition(e);
-    drawMask(downPoint.x, downPoint.y);
+    calculateMask(downPoint.x, downPoint.y);
   } else {
     allowDraw = false;
     addMode = false;
@@ -120,7 +120,7 @@ window.onMouseMove = (e) => {
       //var thres = Math.min(colorThreshold + Math.floor(len / 3), 255);
       if (thres != currentThreshold) {
         currentThreshold = thres;
-        drawMask(downPoint.x, downPoint.y);
+        calculateMask(downPoint.x, downPoint.y);
       }
     }
   }
@@ -148,7 +148,7 @@ window.showThreshold = () => {
     "Threshold: " + currentThreshold;
 };
 
-const drawMask = (x, y) => {
+const calculateMask = (x, y) => {
   if (!resultImage) return;
 
   showThreshold();
@@ -173,15 +173,15 @@ const drawMask = (x, y) => {
     mask = mask ? concatMasks(mask, oldMask) : oldMask;
   }
 
-  drawBorder();
+  drawMask();
 };
 
-window.hatchTick = () => {
+const hatchTick = () => {
   hatchOffset = (hatchOffset + 1) % (hatchLength * 2);
-  drawBorder(true);
+  drawMask(true);
 };
 
-const drawBorder = (noBorder) => {
+const drawMask = (noBorder) => {
   if (!mask) return;
 
   var x,
@@ -252,8 +252,6 @@ const modifyPixels = (color, alpha) => {
 
   // Clear the mask
   mask = null;
-  const interactionCtx = interactionCanvas.getContext("2d");
-  interactionCtx.clearRect(0, 0, w, h);
 };
 
 function hexToRgb(hex, alpha) {
@@ -327,6 +325,9 @@ document.addEventListener("keydown", (e) => {
   console.log("key!", e);
   if (e.key === "Delete") {
     modifyPixels("000000", 0.0);
+
+    // Clear the interaction canvas
+    clearInteractionCanvas();
   }
 });
 
@@ -337,4 +338,10 @@ window.initDownload = (el) => {
     const dataUrl = canvas.toDataURL("image/png");
     el.href = dataUrl;
   }
+};
+
+const clearInteractionCanvas = () => {
+  const interactionCtx = interactionCanvas.getContext("2d");
+  const { width, height } = interactionImage;
+  interactionCtx.clearRect(0, 0, width, height);
 };
