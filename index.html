@@ -43,9 +43,10 @@
     <div class="wrapper">
       <div class="content">
         <img id="original-image" class="picture" />
+        <canvas class="canvas" id="resultCanvas"></canvas>
         <canvas
           class="canvas"
-          id="resultCanvas"
+          id="interactionCanvas"
           onmouseup="onMouseUp.apply(this, arguments)"
           onmousedown="onMouseDown.apply(this, arguments)"
           onmousemove="onMouseMove.apply(this, arguments)"

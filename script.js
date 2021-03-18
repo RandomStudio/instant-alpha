@@ -7,7 +7,9 @@ let simplifyCount = 30;
 let hatchLength = 4;
 let hatchOffset = 0;
 
-let imageInfo = null;
+let resultImage = null;
+let interactionImage = null;
+
 let cacheInd = null;
 let mask = null;
 let oldMask = null;
@@ -39,35 +41,45 @@ window.imageUploaded = (inp) => {
       var img = document.getElementById("original-image");
       img.setAttribute("src", e.target.result);
       img.onload = function () {
-        initCanvas(img);
+        initCanvasses(img);
       };
     };
     reader.readAsDataURL(inp.files[0]);
   }
 };
 
-const initCanvas = (img) => {
-  var cvs = document.getElementById("resultCanvas");
-  cvs.width = img.width;
-  cvs.height = img.height;
-  imageInfo = {
-    width: img.width,
-    height: img.height,
-    context: cvs.getContext("2d"),
-  };
+const initCanvasses = (img) => {
+  const { width, height } = img;
+
+  const resultCanvas = document.getElementById("resultCanvas");
+  resultCanvas.width = width;
+  resultCanvas.height = height;
+
+  const interactionCanvas = document.getElementById("interactionCanvas");
+  interactionCanvas.width = width;
+  interactionCanvas.height = height;
+
   mask = null;
 
+  resultImage = {
+    width: width,
+    height: height,
+    context: resultCanvas.getContext("2d"),
+  };
+
+  interactionImage = {
+    width: width,
+    height: height,
+    context: interactionCanvas.getContext("2d"),
+  };
+
+  // TODO: not sure if this "temporary canvas" is strictly needed?
   var tempCtx = document.createElement("canvas").getContext("2d");
-  tempCtx.canvas.width = imageInfo.width;
-  tempCtx.canvas.height = imageInfo.height;
+  tempCtx.canvas.width = width;
+  tempCtx.canvas.height = height;
   tempCtx.drawImage(img, 0, 0);
-  imageInfo.data = tempCtx.getImageData(
-    0,
-    0,
-    imageInfo.width,
-    imageInfo.height
-  );
-  imageInfo.context.putImageData(imageInfo.data, 0, 0);
+  resultImage.data = tempCtx.getImageData(0, 0, width, height);
+  resultImage.context.putImageData(resultImage.data, 0, 0);
 };
 
 window.getMousePosition = (e) => {
@@ -136,15 +148,15 @@ window.showThreshold = () => {
     "Threshold: " + currentThreshold;
 };
 
-window.drawMask = (x, y) => {
-  if (!imageInfo) return;
+const drawMask = (x, y) => {
+  if (!resultImage) return;
 
   showThreshold();
 
   var image = {
-    data: imageInfo.data.data,
-    width: imageInfo.width,
-    height: imageInfo.height,
+    data: resultImage.data.data,
+    width: resultImage.width,
+    height: resultImage.height,
     bytes: 4,
   };
 
@@ -177,33 +189,33 @@ window.drawBorder = (noBorder) => {
     i,
     j,
     k,
-    w = imageInfo.width,
-    h = imageInfo.height,
-    ctx = imageInfo.context,
-    // imgData = ctx.createImageData(w, h),
-    imgData = imageInfo.data,
+    w = interactionImage.width,
+    h = interactionImage.height,
+    ctx = interactionImage.context,
+    imgData = ctx.createImageData(w, h),
+    // imgData = interactionImage.data,
     res = imgData.data;
 
   if (!noBorder) cacheInd = MagicWand.getBorderIndices(mask);
 
   ctx.clearRect(0, 0, w, h);
 
-  // var len = cacheInd.length;
-  // for (j = 0; j < len; j++) {
-  //   i = cacheInd[j];
-  //   x = i % w; // calc x by index
-  //   y = (i - x) / w; // calc y by index
-  //   k = (y * w + x) * 4;
-  //   if ((x + y + hatchOffset) % (hatchLength * 2) < hatchLength) {
-  //     // detect hatch color
-  //     res[k + 3] = 255; // black, change only alpha
-  //   } else {
-  //     res[k] = 255; // white
-  //     res[k + 1] = 255;
-  //     res[k + 2] = 255;
-  //     res[k + 3] = 255;
-  //   }
-  // }
+  var len = cacheInd.length;
+  for (j = 0; j < len; j++) {
+    i = cacheInd[j];
+    x = i % w; // calc x by index
+    y = (i - x) / w; // calc y by index
+    k = (y * w + x) * 4;
+    if ((x + y + hatchOffset) % (hatchLength * 2) < hatchLength) {
+      // detect hatch color
+      res[k + 3] = 255; // black, change only alpha
+    } else {
+      res[k] = 255; // white
+      res[k + 1] = 255;
+      res[k + 2] = 255;
+      res[k + 3] = 255;
+    }
+  }
 
   ctx.putImageData(imgData, 0, 0);
 };
@@ -215,8 +227,8 @@ window.trace = () => {
   mask = null;
 
   // draw contours
-  var ctx = imageInfo.context;
-  ctx.clearRect(0, 0, imageInfo.width, imageInfo.height);
+  var ctx = resultImage.context;
+  ctx.clearRect(0, 0, resultImage.width, resultImage.height);
   //inner
   ctx.beginPath();
   for (var i = 0; i < cs.length; i++) {
@@ -243,7 +255,7 @@ window.trace = () => {
   ctx.stroke();
 };
 
-window.paint = (color, alpha) => {
+const paint = (color, alpha) => {
   if (!mask) return;
 
   var rgba = hexToRgb(color, alpha);
@@ -253,11 +265,11 @@ window.paint = (color, alpha) => {
     data = mask.data,
     bounds = mask.bounds,
     maskW = mask.width,
-    w = imageInfo.width,
-    h = imageInfo.height,
-    ctx = imageInfo.context,
+    w = resultImage.width,
+    h = resultImage.height,
+    ctx = resultImage.context,
     // imgData = ctx.createImageData(w, h),
-    imgData = imageInfo.data,
+    imgData = resultImage.data,
     res = imgData.data;
 
   for (y = bounds.minY; y <= bounds.maxY; y++) {
@@ -346,7 +358,7 @@ window.concatMasks = (mask, old) => {
 document.addEventListener("keydown", (e) => {
   console.log("key!", e);
   if (e.key === "Delete") {
-    window.paint("000000", 0.0);
+    paint("000000", 0.0);
   }
 });
 
