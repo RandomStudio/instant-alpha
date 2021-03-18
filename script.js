@@ -255,7 +255,7 @@ window.trace = () => {
   ctx.stroke();
 };
 
-const paint = (color, alpha) => {
+const modifyPixels = (color, alpha) => {
   if (!mask) return;
 
   var rgba = hexToRgb(color, alpha);
@@ -358,7 +358,7 @@ window.concatMasks = (mask, old) => {
 document.addEventListener("keydown", (e) => {
   console.log("key!", e);
   if (e.key === "Delete") {
-    paint("000000", 0.0);
+    modifyPixels("000000", 0.0);
   }
 });
 
