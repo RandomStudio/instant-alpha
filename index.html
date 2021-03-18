@@ -13,17 +13,17 @@
             onchange="imageUploaded(this)"
           />
         </div>
+
         <hr />
+
         <button onclick="modifyPixels('000000', 0.0)">
           Delete selection (Delete key)
         </button>
         <button onclick="resetMask()">Reset (Escape key)</button>
-        <div>
-          <a href="" onClick="initDownload(this)" download="result.png"
-            >Download Result</a
-          >
-        </div>
       </div>
+
+      <hr />
+
       <div>
         <div>
           <label for="blurRadiu">Blur radius</label>
@@ -41,6 +41,11 @@
           <li>Click on image to select transparent areas</li>
           <li>Drag to increase threshold</li>
         </ul>
+      </div>
+      <div>
+        <a href="" onClick="initDownload(this)" download="result.png"
+          >Download Result PNG</a
+        >
       </div>
     </div>
 

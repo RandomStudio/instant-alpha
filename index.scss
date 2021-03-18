@@ -1,11 +1,19 @@
 .ui {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0.5em;
+  left: 0.5em;
   z-index: 3;
-  padding: 1em;
-  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1.5em;
+  background-color: rgba(50, 50, 50, 0.5);
   color: white;
+  border: 1px solid grey;
+  a {
+    border: 1px solid black;
+    border-radius: 3px;
+    background-color: #dddddd;
+    padding: 0.5em;
+    margin-top: 16px;
+  }
 }
 
 .wrapper {
