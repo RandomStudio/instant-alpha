@@ -69,12 +69,14 @@ const initCanvas = (img) => {
   );
   imageInfo.context.putImageData(imageInfo.data, 0, 0);
 };
+
 window.getMousePosition = (e) => {
   const p = e.target.getBoundingClientRect();
   const x = Math.round((e.clientX || e.pageX) - p.left);
   const y = Math.round((e.clientY || e.pageY) - p.top);
   return { x: x, y: y };
 };
+
 window.onMouseDown = (e) => {
   if (e.button == 0) {
     allowDraw = true;
@@ -87,6 +89,7 @@ window.onMouseDown = (e) => {
     oldMask = null;
   }
 };
+
 window.onMouseMove = (e) => {
   if (allowDraw) {
     var p = getMousePosition(e);
@@ -110,24 +113,29 @@ window.onMouseMove = (e) => {
     }
   }
 };
+
 window.onMouseUp = (e) => {
   allowDraw = false;
   addMode = false;
   oldMask = null;
   currentThreshold = colorThreshold;
 };
+
 window.onKeyDown = (e) => {
   if (e.keyCode == 17)
     document.getElementById("resultCanvas").classList.add("add-mode");
 };
+
 window.onKeyUp = (e) => {
   if (e.keyCode == 17)
     document.getElementById("resultCanvas").classList.remove("add-mode");
 };
+
 window.showThreshold = () => {
   document.getElementById("threshold").innerHTML =
     "Threshold: " + currentThreshold;
 };
+
 window.drawMask = (x, y) => {
   if (!imageInfo) return;
 
@@ -155,10 +163,12 @@ window.drawMask = (x, y) => {
 
   drawBorder();
 };
+
 window.hatchTick = () => {
   hatchOffset = (hatchOffset + 1) % (hatchLength * 2);
   drawBorder(true);
 };
+
 window.drawBorder = (noBorder) => {
   if (!mask) return;
 
@@ -178,25 +188,26 @@ window.drawBorder = (noBorder) => {
 
   ctx.clearRect(0, 0, w, h);
 
-  var len = cacheInd.length;
-  for (j = 0; j < len; j++) {
-    i = cacheInd[j];
-    x = i % w; // calc x by index
-    y = (i - x) / w; // calc y by index
-    k = (y * w + x) * 4;
-    if ((x + y + hatchOffset) % (hatchLength * 2) < hatchLength) {
-      // detect hatch color
-      res[k + 3] = 255; // black, change only alpha
-    } else {
-      res[k] = 255; // white
-      res[k + 1] = 255;
-      res[k + 2] = 255;
-      res[k + 3] = 255;
-    }
-  }
+  // var len = cacheInd.length;
+  // for (j = 0; j < len; j++) {
+  //   i = cacheInd[j];
+  //   x = i % w; // calc x by index
+  //   y = (i - x) / w; // calc y by index
+  //   k = (y * w + x) * 4;
+  //   if ((x + y + hatchOffset) % (hatchLength * 2) < hatchLength) {
+  //     // detect hatch color
+  //     res[k + 3] = 255; // black, change only alpha
+  //   } else {
+  //     res[k] = 255; // white
+  //     res[k + 1] = 255;
+  //     res[k + 2] = 255;
+  //     res[k + 3] = 255;
+  //   }
+  // }
 
   ctx.putImageData(imgData, 0, 0);
 };
+
 window.trace = () => {
   var cs = MagicWand.traceContours(mask);
   cs = MagicWand.simplifyContours(cs, simplifyTolerant, simplifyCount);
@@ -231,6 +242,7 @@ window.trace = () => {
   ctx.strokeStyle = "blue";
   ctx.stroke();
 };
+
 window.paint = (color, alpha) => {
   if (!mask) return;
 
