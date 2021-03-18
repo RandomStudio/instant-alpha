@@ -220,41 +220,6 @@ window.drawBorder = (noBorder) => {
   ctx.putImageData(imgData, 0, 0);
 };
 
-window.trace = () => {
-  var cs = MagicWand.traceContours(mask);
-  cs = MagicWand.simplifyContours(cs, simplifyTolerant, simplifyCount);
-
-  mask = null;
-
-  // draw contours
-  var ctx = resultImage.context;
-  ctx.clearRect(0, 0, resultImage.width, resultImage.height);
-  //inner
-  ctx.beginPath();
-  for (var i = 0; i < cs.length; i++) {
-    if (!cs[i].inner) continue;
-    var ps = cs[i].points;
-    ctx.moveTo(ps[0].x, ps[0].y);
-    for (var j = 1; j < ps.length; j++) {
-      ctx.lineTo(ps[j].x, ps[j].y);
-    }
-  }
-  ctx.strokeStyle = "red";
-  ctx.stroke();
-  //outer
-  ctx.beginPath();
-  for (var i = 0; i < cs.length; i++) {
-    if (cs[i].inner) continue;
-    var ps = cs[i].points;
-    ctx.moveTo(ps[0].x, ps[0].y);
-    for (var j = 1; j < ps.length; j++) {
-      ctx.lineTo(ps[j].x, ps[j].y);
-    }
-  }
-  ctx.strokeStyle = "blue";
-  ctx.stroke();
-};
-
 const modifyPixels = (color, alpha) => {
   if (!mask) return;
 
