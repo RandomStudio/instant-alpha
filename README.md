@@ -1,5 +1,7 @@
 # Transparency Tool Prototype
 
+Demonstrates functionality similar to "Instant Alpha" as used in Apple Keynote and Preview, but in the browser.
+
 ## Source code notes
 
 This is a modified version of a demo (http://jsfiddle.net/Tamersoul/dr7Dw/) for the library [Magic Wand JS](https://github.com/Tamersoul/magic-wand-js).
