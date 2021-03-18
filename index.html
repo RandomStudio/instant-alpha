@@ -10,13 +10,13 @@
             id="file-upload"
             type="file"
             accept="image/*"
-            onchange="imageUploaded(this)"
+            onchange="onImageUploaded(this)"
           />
         </div>
 
         <hr />
 
-        <button onclick="modifyPixels('000000', 0.0)">
+        <button onclick="modifyPixels('000000', 0.0); resetMask();">
           Delete selection (Delete key)
         </button>
         <button onclick="resetMask()">Reset (Escape key)</button>
