@@ -66,7 +66,7 @@ const initCanvasses = (img) => {
     context: interactionCanvas.getContext("2d"),
   };
 
-  // TODO: not sure if this "temporary canvas" is strictly needed?
+  // Temporary canvas because image data can only be loaded from Canvas
   var tempCtx = document.createElement("canvas").getContext("2d");
   tempCtx.canvas.width = width;
   tempCtx.canvas.height = height;
